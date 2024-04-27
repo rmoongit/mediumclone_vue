@@ -1,4 +1,5 @@
 import authApi from '@/api/auth'
+import {setItem} from '@/helpers/localStorage'
 
 // Начальное состояние
 const state = {
@@ -12,6 +13,7 @@ const state = {
 const mutations = {
   registerStart(state) {
     state.isSubmitting = true
+    state.validationErrors = null
   },
 
   registerSuccess(state, payload) {
@@ -35,6 +37,7 @@ const actions = {
         .register(credentials)
         .then((response) => {
           context.commit('registerSuccess', response.data.user)
+          setItem('accessToken', response.data.user.token)
           resolve(response.data.user)
         })
         .catch((result) => {

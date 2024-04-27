@@ -15,6 +15,7 @@
                 class="form-control form-control-lg"
                 type="text"
                 placeholder="Username"
+                required
               />
             </fieldset>
 
@@ -22,8 +23,9 @@
               <input
                 v-model="email"
                 class="form-control form-control-lg"
-                type="text"
+                type="email"
                 placeholder="Email"
+                required
               />
             </fieldset>
 
@@ -33,6 +35,7 @@
                 class="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
+                required
               />
             </fieldset>
             <button
@@ -78,7 +81,7 @@ export default {
           password: this.password,
         })
         .then(() => {
-          this.$router.push('/')
+          this.$router.push({name: 'home-page'})
         })
     },
   },
