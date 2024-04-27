@@ -7,7 +7,10 @@
           <p class="text-xs-center">
             <!-- <router-link :to="{name: 'login'}">Need an account?</router-link> -->
           </p>
-          VALIDATION ERRORS
+          <McvValidationErrors
+            v-if="validationErrors"
+            :validation-errors="validationErrors"
+          />
           <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
@@ -25,7 +28,6 @@
                 class="form-control form-control-lg"
                 type="email"
                 placeholder="Email"
-                required
               />
             </fieldset>
 
@@ -35,7 +37,7 @@
                 class="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
-                required
+                minlength="4"
               />
             </fieldset>
             <button
@@ -55,8 +57,14 @@
 <style scoped></style>
 
 <script>
+import McvValidationErrors from '@/components/ValidationErrors'
+
 export default {
   name: 'McvRegister',
+
+  components: {
+    McvValidationErrors,
+  },
 
   data() {
     return {
@@ -70,6 +78,10 @@ export default {
     isSubmitting() {
       return this.$store.state.auth.isSubmitting
     },
+
+    validationErrors() {
+      return this.$store.state.auth.validationErrors
+    },
   },
 
   methods: {
@@ -81,7 +93,7 @@ export default {
           password: this.password,
         })
         .then(() => {
-          this.$router.push({name: 'home-page'})
+          this.$router.push({name: 'McvHomePage'})
         })
     },
   },

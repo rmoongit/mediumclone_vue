@@ -1,12 +1,12 @@
 import {createRouter, createWebHistory} from 'vue-router'
 //components
 import Register from '@/views/Register.vue'
-import HomePage from '@/components/HomePage.vue'
+import HomePage from '@/views/HomePage.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home-page',
+    name: 'McvHomePage',
     component: HomePage,
   },
 
