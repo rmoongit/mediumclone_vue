@@ -1,27 +1,18 @@
 <template>
-  <div class="auth-page">
+  <section class="login-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign Up</h1>
+          <h1 class="text-xs-center">Sign in</h1>
           <p class="text-xs-center">
-            <router-link :to="{name: 'login'}">Have an account?</router-link>
+            <router-link :to="{name: 'register'}">Need an account?</router-link>
           </p>
           <McvValidationErrors
             v-if="validationErrors"
             :validation-errors="validationErrors"
           />
-          <form @submit.prevent="onSubmit">
-            <fieldset class="form-group">
-              <input
-                v-model="username"
-                class="form-control form-control-lg"
-                type="text"
-                placeholder="Username"
-                required
-              />
-            </fieldset>
 
+          <form @submit.prevent="onSubmit">
             <fieldset class="form-group">
               <input
                 v-model="email"
@@ -30,28 +21,27 @@
                 placeholder="Email"
               />
             </fieldset>
-
             <fieldset class="form-group">
               <input
                 v-model="password"
                 class="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
-                minlength="4"
               />
             </fieldset>
+
             <button
               :disabled="isSubmitting"
               class="btn btn-lg btn-primary pull-xs-right"
               type="submit"
             >
-              Sign Up
+              Sign In
             </button>
           </form>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped></style>
@@ -62,18 +52,17 @@ import McvValidationErrors from '@/components/ValidationErrors'
 import {actionTypes} from '@/store/modules/auth'
 
 export default {
-  name: 'McvRegister',
-
-  components: {
-    McvValidationErrors,
-  },
+  name: 'McvLoginPage',
 
   data() {
     return {
       email: '',
       password: '',
-      username: '',
     }
+  },
+
+  components: {
+    McvValidationErrors,
   },
 
   computed: {
@@ -87,8 +76,7 @@ export default {
   methods: {
     onSubmit() {
       this.$store
-        .dispatch(actionTypes.register, {
-          username: this.username,
+        .dispatch(actionTypes.login, {
           email: this.email,
           password: this.password,
         })
