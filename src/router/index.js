@@ -7,7 +7,7 @@ import LoginPage from '@/views/LoginPage.vue'
 const routes = [
   {
     path: '/',
-    name: 'McvHomePage',
+    name: 'home',
     component: HomePage,
   },
 
@@ -21,6 +21,12 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginPage,
+  },
+
+  //Заглушка
+  {
+    path: '/:catchAll(.*)*',
+    redirect: '/',
   },
 ]
 
