@@ -6,6 +6,7 @@
 <style scoped></style>
 
 <script>
+import {actionTypes} from './store/modules/auth'
 import McvNavigateBar from '@/components/NavigateBar'
 
 export default {
@@ -13,6 +14,10 @@ export default {
 
   components: {
     McvNavigateBar,
+  },
+
+  mounted() {
+    this.$store.dispatch(actionTypes.getCurrentUser)
   },
 }
 </script>

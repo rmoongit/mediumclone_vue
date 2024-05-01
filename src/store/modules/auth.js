@@ -4,6 +4,7 @@ import {setItem} from '@/helpers/localStorage'
 // Начальное состояние
 const state = {
   isSubmitting: false,
+  isLoading: false,
   currentUser: null,
   validationErrors: null,
   isLoggedIn: null,
@@ -18,12 +19,17 @@ export const mutationTypes = {
   loginStart: '[auth] loginStart',
   loginSuccess: '[auth] loginSuccess',
   loginFailure: '[auth] loginFailure',
+
+  getCurrentUserStart: '[auth] getCurrentUserStart',
+  getCurrentUserSuccess: '[auth] getCurrentUserSuccess',
+  getCurrentUserFailure: '[auth] getCurrentUserFailure',
 }
 
 //Описываем типы action стейта
 export const actionTypes = {
   register: '[auth] register',
   login: '[auth] login',
+  getCurrentUser: '[auth] getCurrentUser',
 }
 
 // Описываем типы getters
@@ -50,6 +56,7 @@ const getters = {
 
 // Мутирует состояние
 const mutations = {
+  // Мутация при регистрации
   [mutationTypes.registerStart](state) {
     state.isSubmitting = true
     state.validationErrors = null
@@ -66,6 +73,7 @@ const mutations = {
     state.validationErrors = payload
   },
 
+  // Мутация при входе (логин)
   [mutationTypes.loginStart](state) {
     state.isSubmitting = true
     state.validationErrors = null
@@ -80,6 +88,23 @@ const mutations = {
   [mutationTypes.loginFailure](state, payload) {
     state.isSubmitting = false
     state.validationErrors = payload
+  },
+
+  // Мутация при получении юзера
+  [mutationTypes.getCurrentUserStart](state) {
+    state.isLoading = true
+  },
+
+  [mutationTypes.getCurrentUserSuccess](state, payload) {
+    state.isLoading = false
+    state.currentUser = payload
+    state.isLoggedIn = true
+  },
+
+  [mutationTypes.getCurrentUserFailure](state) {
+    state.isLoading = false
+    state.isLoggedIn = false
+    state.currentUser = null
   },
 }
 
@@ -120,6 +145,25 @@ const actions = {
             mutationTypes.loginFailure,
             result.response.data.errors
           )
+        })
+    })
+  },
+
+  [actionTypes.getCurrentUser](context) {
+    context.commit(mutationTypes.getCurrentUserStart)
+
+    return new Promise((resolve) => {
+      authApi
+        .getCurrentUser()
+        .then((response) => {
+          context.commit(
+            mutationTypes.getCurrentUserSuccess,
+            response.data.user
+          )
+          resolve(response.data.user)
+        })
+        .catch(() => {
+          context.commit(mutationTypes.getCurrentUserFailure)
         })
     })
   },
