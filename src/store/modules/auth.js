@@ -9,7 +9,7 @@ const state = {
   isLoggedIn: null,
 }
 
-//Описываем типы мутирования стейта
+// Описываем типы мутирования стейта
 export const mutationTypes = {
   registerStart: '[auth] registerStart',
   registerSuccess: '[auth] registerSuccess',
@@ -24,6 +24,28 @@ export const mutationTypes = {
 export const actionTypes = {
   register: '[auth] register',
   login: '[auth] login',
+}
+
+// Описываем типы getters
+export const getterTypes = {
+  currentUser: '[auth] currentUser',
+  isLoggedIn: '[auth] isLoggedIn',
+  isAnonymous: '[auth] isAnonymous',
+}
+
+// Присваеваем getters
+const getters = {
+  [getterTypes.currentUser]: (state) => {
+    return state.currentUser
+  },
+
+  [getterTypes.isLoggedIn]: (state) => {
+    return Boolean(state.isLoggedIn)
+  },
+
+  [getterTypes.isAnonymous]: (state) => {
+    return state.isAnonymous === false
+  },
 }
 
 // Мутирует состояние
@@ -107,4 +129,5 @@ export default {
   state,
   mutations,
   actions,
+  getters,
 }
