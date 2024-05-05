@@ -6,7 +6,7 @@ import LoginPage from '@/views/LoginPage.vue'
 
 const routes = [
   {
-    path: '/global-feed',
+    path: '/',
     name: 'globalFeed',
     component: GlobalFeed,
   },
@@ -27,6 +27,19 @@ const routes = [
   {
     path: '/:catchAll(.*)*',
     redirect: '/',
+  },
+
+  // Пути с параметрами карточек Feed
+  {
+    path: '/profiles/:slug',
+    name: 'userProfile',
+    component: GlobalFeed,
+  },
+
+  {
+    path: '/articles/:slug',
+    name: 'article',
+    component: GlobalFeed,
   },
 ]
 
