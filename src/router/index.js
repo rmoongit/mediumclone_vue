@@ -41,6 +41,12 @@ const routes = [
     name: 'article',
     component: GlobalFeed,
   },
+
+  {
+    path: '/tags/dragons',
+    name: '',
+    component: GlobalFeed,
+  },
 ]
 
 const router = createRouter({routes, history: createWebHistory()})
