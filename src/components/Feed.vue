@@ -45,10 +45,10 @@
         </div>
       </article>
       <mcv-pagination
-        :total="total"
+        :total="feedData.articlesCount"
         :limit="limit"
         :current-page="currentPage"
-        :url="url"
+        :url="baseUrl"
       />
     </article>
   </section>
@@ -58,6 +58,8 @@
 import {mapState} from 'vuex'
 import {actionTypes} from '@/store/modules/feed'
 import McvPagination from '@/components/PaginationBlock'
+import {limit} from '@/helpers/variables'
+import queryString from 'query-string'
 
 export default {
   name: 'McvFeed',
@@ -69,10 +71,7 @@ export default {
   // Моковые данные
   data() {
     return {
-      limit: 10,
-      total: 200,
-      currentPage: 5,
-      url: '/tags/dragons',
+      limit: limit,
     }
   },
 
@@ -84,7 +83,21 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch(actionTypes.getFeed, this.apiUrl)
+    this.fetchFeeds()
+  },
+
+  methods: {
+    fetchFeeds() {
+      const parsedUrl = queryString.parseUrl(this.apiUrl) // парсим основной url
+      const stringifiedParams = queryString.stringify({
+        limit: this.limit,
+        offset: this.offset,
+        ...parsedUrl.query,
+      }) // приводим в параметры из наших значений
+
+      const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`
+      this.$store.dispatch(actionTypes.getFeed, apiUrlWithParams)
+    },
   },
 
   computed: {
@@ -93,6 +106,27 @@ export default {
       isLoading: (state) => state.feed.isLoading,
       error: (state) => state.feed.error,
     }),
+
+    // Вычисляем currentPage
+    currentPage() {
+      return Number(this.$route.query.page) || 1
+    },
+
+    // Вычисляем baseURL
+    baseUrl() {
+      return this.$route.path
+    },
+
+    // Вычисляем Offset страницы
+    offset() {
+      return this.currentPage * this.limit - this.limit
+    },
+  },
+
+  watch: {
+    currentPage() {
+      this.fetchFeeds()
+    },
   },
 }
 </script>
