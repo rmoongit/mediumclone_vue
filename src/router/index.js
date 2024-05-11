@@ -41,6 +41,13 @@ const routes = [
     name: 'article',
     component: GlobalFeed,
   },
+
+  //Пути с параметрами Тегов
+  {
+    path: '/tag/:slug',
+    name: 'tag',
+    component: GlobalFeed,
+  },
 ]
 
 const router = createRouter({routes, history: createWebHistory()})
