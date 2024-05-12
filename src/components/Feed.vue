@@ -1,7 +1,7 @@
 <template>
   <section>
-    <div v-if="isLoading">Feed is Loading...</div>
-    <div v-if="error">{{ Error }}</div>
+    <mcv-loading v-if="isLoading" />
+    <mcv-error v-if="error" />
 
     <article v-if="feedData">
       <article
@@ -55,9 +55,11 @@
 </template>
 
 <script>
+import McvPagination from '@/components/PaginationBlock'
+import McvLoading from '@/components/IsLoading'
+import McvError from '@/components/IsError'
 import {mapState} from 'vuex'
 import {actionTypes} from '@/store/modules/feed'
-import McvPagination from '@/components/PaginationBlock'
 import {limit} from '@/helpers/variables'
 import queryString from 'query-string'
 
@@ -66,6 +68,8 @@ export default {
 
   components: {
     McvPagination,
+    McvLoading,
+    McvError,
   },
 
   // Моковые данные
@@ -89,6 +93,7 @@ export default {
   methods: {
     fetchFeeds() {
       const parsedUrl = queryString.parseUrl(this.apiUrl) // парсим основной url
+
       const stringifiedParams = queryString.stringify({
         limit: this.limit,
         offset: this.offset,

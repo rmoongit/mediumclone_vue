@@ -1,7 +1,7 @@
 <template>
   <section>
-    <div v-if="isLoading">Tags is loading...</div>
-    <div v-if="error">Error</div>
+    <mcv-loading v-if="isLoading" />
+    <mcv-error v-if="error" />
 
     <div v-if="popularTags" class="sidebar">
       <p>Popular Tags</p>
@@ -21,9 +21,16 @@
 <script>
 import {mapState} from 'vuex'
 import {actionTypes} from '@/store/modules/popularTags'
+import McvLoading from '@/components/IsLoading'
+import McvError from '@/components/IsError'
 
 export default {
   name: 'McvPopularTags',
+
+  components: {
+    McvLoading,
+    McvError,
+  },
 
   mounted() {
     this.fetchTags()
