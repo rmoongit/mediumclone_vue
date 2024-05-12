@@ -3,6 +3,8 @@ import {createRouter, createWebHistory} from 'vue-router'
 import GlobalFeed from '@/views/GlobalFeed.vue'
 import Register from '@/views/Register.vue'
 import LoginPage from '@/views/LoginPage.vue'
+import YourFeed from '@/views/YourFeed'
+import TagFeed from '@/views/TagFeed'
 
 const routes = [
   {
@@ -37,6 +39,12 @@ const routes = [
   },
 
   {
+    path: '/feed',
+    name: 'feed',
+    component: YourFeed,
+  },
+
+  {
     path: '/articles/:slug',
     name: 'article',
     component: GlobalFeed,
@@ -44,9 +52,9 @@ const routes = [
 
   //Пути с параметрами Тегов
   {
-    path: '/tag/:slug',
+    path: '/tags/:slug',
     name: 'tag',
-    component: GlobalFeed,
+    component: TagFeed,
   },
 ]
 

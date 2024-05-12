@@ -132,6 +132,10 @@ export default {
     currentPage() {
       this.fetchFeeds()
     },
+
+    apiUrl() {
+      this.fetchFeeds()
+    },
   },
 }
 </script>
