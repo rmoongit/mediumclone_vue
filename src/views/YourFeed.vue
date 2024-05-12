@@ -4,6 +4,7 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-9">
+          <mcv-feed-toggler />
           <mcv-feed :api-url="feedUrl" />
         </div>
         <div class="col-md-3">
@@ -20,6 +21,7 @@
 import McvBanner from '@/components/MainBanner'
 import McvFeed from '@/components/Feed.vue'
 import McvPopularTags from '@/components/PopularTags'
+import McvFeedToggler from '@/components/FeedToggler'
 
 export default {
   name: 'McvYourFeed',
@@ -28,6 +30,7 @@ export default {
     McvFeed,
     McvPopularTags,
     McvBanner,
+    McvFeedToggler,
   },
 
   data() {

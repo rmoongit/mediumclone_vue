@@ -4,6 +4,7 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-9">
+          <mcv-feed-toggler :tag-name="tagName" />
           <mcv-feed :api-url="tagUrl" />
         </div>
         <div class="col-md-3">
@@ -20,6 +21,7 @@
 import McvBanner from '@/components/MainBanner'
 import McvFeed from '@/components/Feed.vue'
 import McvPopularTags from '@/components/PopularTags'
+import McvFeedToggler from '@/components/FeedToggler'
 
 export default {
   name: 'McvTagFeed',
@@ -28,13 +30,17 @@ export default {
     McvFeed,
     McvPopularTags,
     McvBanner,
+    McvFeedToggler,
   },
 
   computed: {
     //Получаем новый Url тегов
     tagUrl() {
-      const tagName = this.$route.params.slug
-      return `/articles?tag=${tagName}`
+      return `/articles?tag=${this.tagName}`
+    },
+
+    tagName() {
+      return this.$route.params.slug
     },
   },
 }

@@ -40,7 +40,7 @@ const routes = [
 
   {
     path: '/feed',
-    name: 'feed',
+    name: 'yourFeed',
     component: YourFeed,
   },
 
