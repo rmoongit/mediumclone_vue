@@ -5,6 +5,7 @@ import Register from '@/views/Register.vue'
 import LoginPage from '@/views/LoginPage.vue'
 import YourFeed from '@/views/YourFeed'
 import TagFeed from '@/views/TagFeed'
+import UserArticle from '@/views/UserArticle'
 
 const routes = [
   {
@@ -47,7 +48,7 @@ const routes = [
   {
     path: '/articles/:slug',
     name: 'article',
-    component: GlobalFeed,
+    component: UserArticle,
   },
 
   //Пути с параметрами Тегов
@@ -55,6 +56,13 @@ const routes = [
     path: '/tags/:slug',
     name: 'tag',
     component: TagFeed,
+  },
+
+  //editArticle
+  {
+    path: '/edit-article/:slug',
+    name: 'editArticle',
+    component: YourFeed,
   },
 ]
 

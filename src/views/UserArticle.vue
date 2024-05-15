@@ -1,0 +1,89 @@
+<template>
+  <section class="article-page">
+    <div class="banner">
+      <div v-if="articleData" class="container">
+        <h1>{{ articleData.title }}</h1>
+        <div class="article-meta">
+          <router-link
+            :to="{name: 'userProfile', params: {slug: this.$route.params.slug}}"
+          >
+            <img :src="articleData.author.image" />
+          </router-link>
+          <div class="info">
+            <router-link
+              :to="{
+                name: 'userProfile',
+                params: {slug: this.$route.params.slug},
+              }"
+            >
+              {{ articleData.author.username }}
+            </router-link>
+            <span class="date">{{
+              dayjs(articleData.createdAt).format('MMMM DD, YYYY')
+            }}</span>
+          </div>
+          <span>
+            <router-link
+              class="btn btn-outline-secondary btn-sm"
+              :to="{name: 'editArticle', params: {slug: articleData.slug}}"
+            >
+              <i class="ion-edit">Edit Article</i>
+            </router-link>
+            <button class="btn btn-outline-danger btn-sm">
+              <i class="ion-trash-a">Delete Article</i>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container page">
+      <mcv-loading v-if="isLoading" />
+      <mcv-error v-if="error" :message="error" />
+
+      <div v-if="articleData" class="row article-content">
+        <div class="col-xs-12">
+          <p>{{ articleData.body }}</p>
+        </div>
+        TAG LIST
+      </div>
+    </div>
+  </section>
+</template>
+
+<script>
+import dayjs from 'dayjs'
+import {mapState} from 'vuex'
+import {actionTypes} from '@/store/modules/article'
+import McvLoading from '@/components/IsLoading'
+import McvError from '@/components/IsError'
+
+export default {
+  name: 'McvArticle',
+
+  components: {
+    McvLoading,
+    McvError,
+  },
+
+  data() {
+    return {
+      dayjs,
+    }
+  },
+
+  mounted() {
+    this.$store.dispatch(actionTypes.getArticle, {
+      slug: this.$route.params.slug,
+    })
+  },
+
+  computed: {
+    ...mapState({
+      articleData: (state) => state.article.data,
+      isLoading: (state) => state.article.isLoading,
+      error: (state) => state.article.isError,
+    }),
+  },
+}
+</script>
