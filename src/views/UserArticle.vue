@@ -94,7 +94,7 @@ export default {
     }),
 
     isAuthor() {
-      if (!this.currentUser || this.article) {
+      if (!this.currentUser || this.articleData) {
         return false
       }
 
