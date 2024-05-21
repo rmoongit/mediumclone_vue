@@ -1,13 +1,15 @@
 <template>
   <mcv-article-form
     :initial-values="initialValues"
-    :errors="getErrorValidation"
+    :errors="validationErrors"
     :is-submitting="isSubmitting"
     @articleSubmit="onSubmit"
   />
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import {actionTypes} from '@/store/modules/createArticle'
 import McvArticleForm from '@/components/ArticleForm'
 
 export default {
@@ -19,20 +21,29 @@ export default {
 
   data() {
     return {
-      getErrorValidation: null,
       initialValues: {
         title: '',
         description: '',
         body: '',
         tagList: [],
       },
-      isSubmitting: false,
     }
   },
 
+  computed: {
+    ...mapState({
+      isSubmitting: (state) => state.createArticle.isSubmitting,
+      validationErrors: (state) => state.createArticle.validationErrors,
+    }),
+  },
+
   methods: {
-    onSubmit(data) {
-      console.log('on submit article', data)
+    onSubmit(articleInput) {
+      this.$store
+        .dispatch(actionTypes.createArticle, {articleInput})
+        .then((article) => {
+          this.$router.push({name: 'article', params: {slug: article.slug}})
+        })
     },
   },
 }
