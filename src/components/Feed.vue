@@ -40,7 +40,7 @@
             <h1>{{ article.title }}</h1>
             <p>{{ article.description }}</p>
             <span>Read more...</span>
-            TAG LIST
+            <mcv-tag-list :tags="article.tagList" />
           </router-link>
         </div>
       </article>
@@ -58,6 +58,7 @@
 import McvPagination from '@/components/PaginationBlock'
 import McvLoading from '@/components/IsLoading'
 import McvError from '@/components/IsError'
+import McvTagList from '@/components/TagList'
 import {mapState} from 'vuex'
 import {actionTypes} from '@/store/modules/feed'
 import {limit} from '@/helpers/variables'
@@ -70,6 +71,7 @@ export default {
     McvPagination,
     McvLoading,
     McvError,
+    McvTagList,
   },
 
   // Моковые данные

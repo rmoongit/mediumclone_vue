@@ -48,7 +48,7 @@
         <div class="col-xs-12">
           <p>{{ articleData.body }}</p>
         </div>
-        TAG LIST
+        <mcv-tag-list :tags="articleData.tagList" />
       </div>
     </div>
   </section>
@@ -61,6 +61,7 @@ import {actionTypes as articleActionTypes} from '@/store/modules/article'
 import {getterTypes as authGetterTypes} from '@/store/modules/auth'
 import McvLoading from '@/components/IsLoading'
 import McvError from '@/components/IsError'
+import McvTagList from '@/components/TagList'
 
 export default {
   name: 'McvArticle',
@@ -68,6 +69,7 @@ export default {
   components: {
     McvLoading,
     McvError,
+    McvTagList,
   },
 
   data() {
@@ -94,11 +96,11 @@ export default {
     }),
 
     isAuthor() {
-      if (!this.currentUser || this.articleData) {
+      if (!this.currentUser || !this.articleData) {
         return false
       }
 
-      return this.currentUser === this.articleData.author.username
+      return this.currentUser.username === this.articleData.author.username
     },
   },
 
