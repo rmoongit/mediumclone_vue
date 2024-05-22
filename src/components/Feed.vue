@@ -74,7 +74,6 @@ export default {
     McvTagList,
   },
 
-  // Моковые данные
   data() {
     return {
       limit: limit,

@@ -8,6 +8,7 @@ import TagFeed from '@/views/TagFeed'
 import UserArticle from '@/views/UserArticle'
 import CreateArticle from '@/views/CreateArticle'
 import EditArticle from '@/views/EditArticle'
+import SettingsPage from '@/views/SettingsPage'
 
 const routes = [
   {
@@ -71,6 +72,13 @@ const routes = [
     path: '/articles/new',
     name: 'createArticle',
     component: CreateArticle,
+  },
+
+  // Settings
+  {
+    path: '/settings',
+    name: 'settings',
+    component: SettingsPage,
   },
 ]
 
