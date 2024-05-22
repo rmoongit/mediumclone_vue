@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 /**
- * @param {String} slug ссылка на текст пользователя
+ * @param {String} slug ссылка на слаг пользователя
  */
 
 const getArticle = (slug) => {
@@ -20,8 +20,22 @@ const createArticle = (articleInput) => {
     .then((response) => response.data.article)
 }
 
+/**
+ *
+ * @param {String} slug ссылка на слаг пользователя
+ * @param {String} articleInput передаём входные данные
+ * @returns
+ */
+
+const updateArticle = (slug, articleInput) => {
+  return axios
+    .put(`/articles/${slug}`, {article: articleInput})
+    .then((response) => response.data.article)
+}
+
 export default {
   getArticle,
   deleteArticle,
   createArticle,
+  updateArticle,
 }
