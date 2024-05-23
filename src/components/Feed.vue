@@ -32,7 +32,13 @@
             </router-link>
             <span class="date">{{ article.createAt }}</span>
           </div>
-          <div class="pull-xs-right">add to favourite</div>
+          <div class="pull-xs-right">
+            <mcv-add-to-favorites
+              :is-favorited="article.favorited"
+              :is-favorites-count="article.favoritesCount"
+              :article-slug="article.slug"
+            />
+          </div>
           <router-link
             class="preview-link"
             :to="{name: 'article', params: {slug: article.slug}}"
@@ -59,6 +65,7 @@ import McvPagination from '@/components/PaginationBlock'
 import McvLoading from '@/components/IsLoading'
 import McvError from '@/components/IsError'
 import McvTagList from '@/components/TagList'
+import McvAddToFavorites from '@/components/AddToFavorites'
 import {mapState} from 'vuex'
 import {actionTypes} from '@/store/modules/feed'
 import {limit} from '@/helpers/variables'
@@ -72,6 +79,7 @@ export default {
     McvLoading,
     McvError,
     McvTagList,
+    McvAddToFavorites,
   },
 
   data() {

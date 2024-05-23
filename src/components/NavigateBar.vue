@@ -42,7 +42,7 @@
             <li class="nav-item">
               <router-link
                 class="nav-link"
-                :to="{name: '', params: {slug: user.username}}"
+                :to="{name: 'userProfile', params: {slug: this.user.username}}"
               >
                 <img class="user-pic" :src="this.user.image" /> &nbsp;
                 {{ this.user.username }}
