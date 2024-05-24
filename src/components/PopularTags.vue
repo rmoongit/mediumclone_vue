@@ -6,7 +6,7 @@
     <div v-if="popularTags" class="sidebar">
       <p>Popular Tags</p>
       <ul class="tag-list">
-        <li v-for="(tag, index) in popularTags" :key="index">
+        <li v-for="(tag, index) in filteredPopularTags" :key="index">
           <router-link
             class="tag-pill tag-default"
             :to="{name: 'tag', params: {slug: tag}}"
@@ -32,7 +32,7 @@ export default {
     McvError,
   },
 
-  mounted() {
+  beforeMount() {
     this.fetchTags()
   },
 
@@ -49,6 +49,11 @@ export default {
       isLoading: (state) => state.popularTags.isLoading,
       error: (state) => state.popularTags.error,
     }),
+
+    filteredPopularTags() {
+      const filteredTags = this.popularTags.filter((tag) => tag)
+      return filteredTags
+    },
   },
 }
 </script>
