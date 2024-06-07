@@ -9,6 +9,7 @@ import UserArticle from '@/views/UserArticle'
 import CreateArticle from '@/views/CreateArticle'
 import EditArticle from '@/views/EditArticle'
 import SettingsPage from '@/views/SettingsPage'
+import UserProfile from '@/views/UserProfile'
 
 const routes = [
   {
@@ -36,11 +37,6 @@ const routes = [
   },
 
   // Пути с параметрами карточек Feed
-  {
-    path: '/profiles/:slug',
-    name: 'userProfile',
-    component: GlobalFeed,
-  },
 
   {
     path: '/feed',
@@ -79,6 +75,20 @@ const routes = [
     path: '/settings',
     name: 'settings',
     component: SettingsPage,
+  },
+
+  // User Profile
+
+  {
+    path: '/profiles/:slug',
+    name: 'userProfile',
+    component: UserProfile,
+  },
+
+  {
+    path: '/profiles/:slug/favorites',
+    name: 'userProfileFavorites',
+    component: UserProfile,
   },
 ]
 
