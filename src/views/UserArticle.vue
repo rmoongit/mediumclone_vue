@@ -22,6 +22,21 @@
               dayjs(articleData.createdAt).format('MMMM DD, YYYY')
             }}</span>
           </div>
+          <span v-if="!isAuthor">
+            <button
+              class="btn btn-sm"
+              :class="{
+                'btn-outline-secondary': !this.isFollowed,
+                'btn-outline-primary': this.isFollowed,
+              }"
+              @click="followHandler"
+            >
+              Follow to {{ articleData.author.username }}
+            </button>
+            <button class="btn btn-outline-primary btn-sm">
+              Favorite article ({{ articleData.favoritesCount || 0 }})
+            </button>
+          </span>
           <span v-if="isAuthor">
             <router-link
               class="btn btn-outline-secondary btn-sm"
@@ -58,6 +73,7 @@
 import dayjs from 'dayjs'
 import {mapState, mapGetters} from 'vuex'
 import {actionTypes as articleActionTypes} from '@/store/modules/article'
+import {actionTypes as followTypes} from '@/store/modules/followToUser'
 import {getterTypes as authGetterTypes} from '@/store/modules/auth'
 import McvLoading from '@/components/IsLoading'
 import McvError from '@/components/IsError'
@@ -89,6 +105,9 @@ export default {
       articleData: (state) => state.article.data,
       isLoading: (state) => state.article.isLoading,
       error: (state) => state.article.isError,
+
+      followingProfile: (state) => state.followToUser.profile,
+      isFollowed: (state) => state.followToUser.isFollowed,
     }),
 
     ...mapGetters({
@@ -111,6 +130,19 @@ export default {
           slug: this.$route.params.slug,
         })
         .then(() => this.$router.push({name: 'globalFeed'}))
+    },
+
+    async followHandler() {
+      const authorOfArticle = this.articleData.author.username
+      if (this.followingProfile) {
+        await this.$store.dispatch(followTypes.unFollowFromUser, {
+          slug: authorOfArticle,
+        })
+      } else {
+        await this.$store.dispatch(followTypes.followToUser, {
+          slug: authorOfArticle,
+        })
+      }
     },
   },
 }

@@ -9,6 +9,7 @@ import editArticle from '@/store/modules/editArticle'
 import settings from '@/store/modules/settings'
 import addToFavorites from '@/store/modules/addToFavorites'
 import userProfile from '@/store/modules/userProfile'
+import followToUser from '@/store/modules/followToUser'
 
 export default createStore({
   state: {},
@@ -27,5 +28,6 @@ export default createStore({
     settings,
     addToFavorites,
     userProfile,
+    followToUser,
   },
 })
