@@ -23,16 +23,7 @@
             }}</span>
           </div>
           <span v-if="!isAuthor">
-            <button
-              class="btn btn-sm"
-              :class="{
-                'btn-outline-secondary': !this.isFollowed,
-                'btn-outline-primary': this.isFollowed,
-              }"
-              @click="followHandler"
-            >
-              Follow to {{ articleData.author.username }}
-            </button>
+            <mcv-follow-to-user :authorData="articleData.author" />
             <button class="btn btn-outline-primary btn-sm">
               Favorite article ({{ articleData.favoritesCount || 0 }})
             </button>
@@ -73,11 +64,11 @@
 import dayjs from 'dayjs'
 import {mapState, mapGetters} from 'vuex'
 import {actionTypes as articleActionTypes} from '@/store/modules/article'
-import {actionTypes as followTypes} from '@/store/modules/followToUser'
 import {getterTypes as authGetterTypes} from '@/store/modules/auth'
 import McvLoading from '@/components/IsLoading'
 import McvError from '@/components/IsError'
 import McvTagList from '@/components/TagList'
+import McvFollowToUser from '@/components/FollowToUser'
 
 export default {
   name: 'McvArticle',
@@ -86,6 +77,7 @@ export default {
     McvLoading,
     McvError,
     McvTagList,
+    McvFollowToUser,
   },
 
   data() {
@@ -105,9 +97,6 @@ export default {
       articleData: (state) => state.article.data,
       isLoading: (state) => state.article.isLoading,
       error: (state) => state.article.isError,
-
-      followingProfile: (state) => state.followToUser.profile,
-      isFollowed: (state) => state.followToUser.isFollowed,
     }),
 
     ...mapGetters({
@@ -130,19 +119,6 @@ export default {
           slug: this.$route.params.slug,
         })
         .then(() => this.$router.push({name: 'globalFeed'}))
-    },
-
-    async followHandler() {
-      const authorOfArticle = this.articleData.author.username
-      if (this.followingProfile) {
-        await this.$store.dispatch(followTypes.unFollowFromUser, {
-          slug: authorOfArticle,
-        })
-      } else {
-        await this.$store.dispatch(followTypes.followToUser, {
-          slug: authorOfArticle,
-        })
-      }
     },
   },
 }
