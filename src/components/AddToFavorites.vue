@@ -8,7 +8,10 @@
     @click="handleLike"
   >
     <i class="ion-heart" />
-    <span>&nbsp; {{ isFavoritesCountOptimistic }}</span>
+    <span
+      >&nbsp; <span v-if="hasLabel">{{ updateHasLabel }}</span>
+      {{ isFavoritesCountOptimistic }}</span
+    >
   </button>
 </template>
 
@@ -33,12 +36,20 @@ export default {
       type: String,
       required: true,
     },
+
+    hasLabel: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
 
   data() {
     return {
       isFavoritesCountOptimistic: this.isFavoritesCount,
       isFavoritedOptimistic: this.isFavorited,
+
+      updateText: this.hasLabel,
     }
   },
 
@@ -56,6 +67,14 @@ export default {
       }
 
       this.isFavoritedOptimistic = !this.isFavoritedOptimistic
+    },
+  },
+
+  computed: {
+    updateHasLabel() {
+      return this.isFavoritedOptimistic
+        ? 'Unfavorite Article'
+        : 'Favorite Article'
     },
   },
 }

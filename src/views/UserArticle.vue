@@ -24,9 +24,16 @@
           </div>
           <span v-if="!isAuthor">
             <mcv-follow-to-user :authorData="articleData.author" />
-            <button class="btn btn-outline-primary btn-sm">
-              Favorite article ({{ articleData.favoritesCount || 0 }})
-            </button>
+            <mcv-add-to-favorites
+              :is-favorited="articleData.favorited"
+              :is-favorites-count="articleData.favoritesCount"
+              :article-slug="articleData.slug"
+              :hasLabel="
+                articleData.favorited
+                  ? 'Unfavorite Article'
+                  : 'Favorite Article'
+              "
+            />
           </span>
           <span v-if="isAuthor">
             <router-link
@@ -68,6 +75,7 @@ import {getterTypes as authGetterTypes} from '@/store/modules/auth'
 import McvLoading from '@/components/IsLoading'
 import McvError from '@/components/IsError'
 import McvTagList from '@/components/TagList'
+import McvAddToFavorites from '@/components/AddToFavorites'
 import McvFollowToUser from '@/components/FollowToUser'
 
 export default {
@@ -77,6 +85,7 @@ export default {
     McvLoading,
     McvError,
     McvTagList,
+    McvAddToFavorites,
     McvFollowToUser,
   },
 
