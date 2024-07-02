@@ -64,6 +64,10 @@
         <mcv-tag-list :tags="articleData.tagList" />
       </div>
     </div>
+
+    <hr />
+
+    <mcv-article-comment-form v-if="articleData" :author="articleData.author" />
   </section>
 </template>
 
@@ -77,6 +81,7 @@ import McvError from '@/components/IsError'
 import McvTagList from '@/components/TagList'
 import McvAddToFavorites from '@/components/AddToFavorites'
 import McvFollowToUser from '@/components/FollowToUser'
+import McvArticleCommentForm from '@/components/ArticleCommentForm'
 
 export default {
   name: 'McvArticle',
@@ -87,6 +92,7 @@ export default {
     McvTagList,
     McvAddToFavorites,
     McvFollowToUser,
+    McvArticleCommentForm,
   },
 
   data() {

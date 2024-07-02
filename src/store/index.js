@@ -10,6 +10,7 @@ import settings from '@/store/modules/settings'
 import addToFavorites from '@/store/modules/addToFavorites'
 import userProfile from '@/store/modules/userProfile'
 import followToUser from '@/store/modules/followToUser'
+import articleCommentForm from '@/store/modules/articleCommentForm'
 
 export default createStore({
   state: {},
@@ -29,5 +30,6 @@ export default createStore({
     addToFavorites,
     userProfile,
     followToUser,
+    articleCommentForm,
   },
 })
