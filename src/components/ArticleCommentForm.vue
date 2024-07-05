@@ -16,32 +16,46 @@
         </div>
       </form>
 
-      <!-- <div class="card">
-        <div class="card-block">
-          <p class="card-text">
-            With supporting text below as a natural lead-in to additional
-            content.
-          </p>
+      <div class="card-wrapper" v-if="userComments">
+        <div class="card" v-for="comment in userComments" :key="comment">
+          <div class="card-block">
+            <p class="card-text">
+              {{ comment.body }}
+            </p>
+          </div>
+          <div class="card-footer">
+            <router-link
+              :to="{
+                name: 'userProfile',
+                params: {slug: comment.author.username},
+              }"
+              class="comment-author"
+            >
+              <img :src="comment.author.image" class="comment-author-img" />
+            </router-link>
+            &nbsp;
+            <router-link
+              :to="{
+                name: 'userProfile',
+                params: {slug: comment.author.username},
+              }"
+              class="comment-author"
+            >
+              {{ comment.author.username }}
+            </router-link>
+            <span class="date-posted">{{
+              dayjs(comment.createdAt).format('MMMM DD, YYYY')
+            }}</span>
+          </div>
         </div>
-        <div class="card-footer">
-          <a href="/profile/author" class="comment-author">
-            <img
-              src="http://i.imgur.com/Qr71crq.jpg"
-              class="comment-author-img"
-            />
-          </a>
-          &nbsp;
-          <a href="/profile/jacob-schmidt" class="comment-author"
-            >Jacob Schmidt</a
-          >
-          <span class="date-posted">Dec 29th</span>
-        </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'
+import commentFormApi from '@/api/articleCommentForm'
 import {actionTypes as commentActionTypes} from '@/store/modules/articleCommentForm'
 
 export default {
@@ -49,9 +63,11 @@ export default {
 
   data() {
     return {
+      dayjs,
       formData: {
         text: '',
       },
+      userComments: [],
     }
   },
 
@@ -62,14 +78,30 @@ export default {
     },
   },
 
+  mounted() {
+    this.fetchComments()
+  },
+
   methods: {
-    handlePost() {
-      this.$store.dispatch(commentActionTypes.commentCreate, {
+    async handlePost() {
+      await this.$store.dispatch(commentActionTypes.commentCreate, {
         slug: this.$route.params,
         formData: this.formData.text,
       })
 
+      await this.fetchComments()
+
       this.formData.text = ''
+    },
+
+    async fetchComments() {
+      const slug = this.$route.params
+      await commentFormApi
+        .getComment(slug)
+        .then((response) => {
+          this.userComments = response.comments
+        })
+        .catch((error) => console.log('error', error))
     },
   },
 }

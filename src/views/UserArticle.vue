@@ -35,7 +35,7 @@
               "
             />
           </span>
-          <span v-if="isAuthor">
+          <span class="buttons-wrapper" v-if="isAuthor">
             <router-link
               class="btn btn-outline-secondary btn-sm"
               :to="{name: 'editArticle', params: {slug: articleData.slug}}"
@@ -138,3 +138,18 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.article-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.buttons-wrapper {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+</style>
