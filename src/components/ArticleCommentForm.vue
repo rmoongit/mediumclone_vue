@@ -1,6 +1,10 @@
 <template>
   <div class="row">
     <div class="col-xs-12 col-md-8 offset-md-2">
+      <mcv-validation-errors
+        v-if="commentError"
+        :validationErrors="commentError"
+      />
       <form class="card comment-form" @submit.prevent="handlePost">
         <div class="card-block">
           <textarea
@@ -50,6 +54,9 @@
             <span class="date-posted">{{
               dayjs(comment.createdAt).format('MMMM DD, YYYY')
             }}</span>
+            <span class="mod-options">
+              <i class="ion-trash-a" @click="handlePostDelete(comment.id)"></i>
+            </span>
           </div>
         </div>
       </div>
@@ -59,15 +66,23 @@
 
 <script>
 import dayjs from 'dayjs'
+import {mapState} from 'vuex'
 import commentFormApi from '@/api/articleCommentForm'
 import {actionTypes as commentActionTypes} from '@/store/modules/articleCommentForm'
+import McvValidationErrors from '@/components/ValidationErrors'
 
 export default {
   name: 'McvArticleCommentForm',
 
+  components: {
+    McvValidationErrors,
+  },
+
   data() {
     return {
       dayjs,
+      slug: this.$route.params,
+
       formData: {
         text: '',
       },
@@ -87,6 +102,10 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      commentError: (state) => state.articleCommentForm.validationErrors,
+    }),
+
     sortedCommentsByDate() {
       return this.userComments
         .slice()
@@ -100,7 +119,7 @@ export default {
   methods: {
     async handlePost() {
       await this.$store.dispatch(commentActionTypes.commentCreate, {
-        slug: this.$route.params,
+        slug: this.slug,
         formData: this.formData.text,
       })
 
@@ -109,14 +128,22 @@ export default {
       this.formData.text = ''
     },
 
-    fetchComments() {
-      const slug = this.$route.params
-      commentFormApi
-        .getComment(slug)
-        .then((response) => {
-          this.userComments = response.comments
+    async handlePostDelete(commentId) {
+      if (commentId) {
+        await this.$store.dispatch(commentActionTypes.commentDelete, {
+          slug: this.slug,
+          id: commentId,
         })
-        .catch((error) => console.log('error', error))
+
+        this.fetchComments()
+      }
+      return
+    },
+
+    fetchComments() {
+      commentFormApi.getComment(this.slug).then((response) => {
+        this.userComments = response.comments
+      })
     },
   },
 }

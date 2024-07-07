@@ -32,7 +32,7 @@ const addComment = ({slug}, body) => {
  * @param {String} slug имя поста
  */
 
-const deleteComment = (slug, id) => {
+const deleteComment = ({slug}, id) => {
   return axios
     .delete(`/articles/${slug}/comments/${id}`)
     .then((response) => response.data)
