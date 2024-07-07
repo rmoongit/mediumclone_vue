@@ -5,7 +5,10 @@
         <h1>{{ articleData.title }}</h1>
         <div class="article-meta">
           <router-link
-            :to="{name: 'userProfile', params: {slug: this.$route.params.slug}}"
+            :to="{
+              name: 'userProfile',
+              params: {slug: articleData.author.username},
+            }"
           >
             <img :src="articleData.author.image" />
           </router-link>
@@ -13,7 +16,7 @@
             <router-link
               :to="{
                 name: 'userProfile',
-                params: {slug: this.$route.params.slug},
+                params: {slug: articleData.author.username},
               }"
             >
               {{ articleData.author.username }}
