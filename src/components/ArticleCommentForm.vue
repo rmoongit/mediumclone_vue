@@ -17,7 +17,11 @@
       </form>
 
       <div class="card-wrapper" v-if="userComments">
-        <div class="card" v-for="comment in userComments" :key="comment">
+        <div
+          class="card"
+          v-for="comment in sortedCommentsByDate"
+          :key="comment"
+        >
           <div class="card-block">
             <p class="card-text">
               {{ comment.body }}
@@ -82,6 +86,17 @@ export default {
     this.fetchComments()
   },
 
+  computed: {
+    sortedCommentsByDate() {
+      return this.userComments
+        .slice()
+        .sort(
+          (itemA, itemB) =>
+            new Date(itemB.createdAt) - new Date(itemA.createdAt)
+        )
+    },
+  },
+
   methods: {
     async handlePost() {
       await this.$store.dispatch(commentActionTypes.commentCreate, {
@@ -89,14 +104,14 @@ export default {
         formData: this.formData.text,
       })
 
-      await this.fetchComments()
+      this.fetchComments()
 
       this.formData.text = ''
     },
 
-    async fetchComments() {
+    fetchComments() {
       const slug = this.$route.params
-      await commentFormApi
+      commentFormApi
         .getComment(slug)
         .then((response) => {
           this.userComments = response.comments
